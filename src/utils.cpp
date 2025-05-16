@@ -6,7 +6,7 @@
 /*   By: gyong-si <gyong-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:56:47 by gyong-si          #+#    #+#             */
-/*   Updated: 2025/05/16 12:06:06 by gyong-si         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:36:03 by gyong-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,20 @@ int	setnonblocking(int client_fd)
 		return (-1);
 
 	return (fcntl(client_fd, F_SETFL, flags | O_NONBLOCK));
+}
+
+std::string sha256(const std::string &str)
+{
+    unsigned char hash[32];
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+
+    EVP_DigestInit_ex(ctx, EVP_sha256(), NULL);
+    EVP_DigestUpdate(ctx, str.c_str(), str.length());
+    EVP_DigestFinal_ex(ctx, hash, NULL);
+    EVP_MD_CTX_free(ctx);
+
+    std::ostringstream oss;
+    for (int i = 0; i < 32; ++i)
+        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    return oss.str();
 }

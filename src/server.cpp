@@ -6,7 +6,7 @@
 /*   By: gyong-si <gyong-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:41:53 by gyong-si          #+#    #+#             */
-/*   Updated: 2025/05/16 14:34:22 by gyong-si         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:28:48 by gyong-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ Server::Server(const std::string &port, const std::string &password)
 	}
 	_name = "ircserv";
 	_port = std::strtol(port.c_str(), NULL, 10);
-	_password = password;
+	_password = sha256(password);
 	_created_time = getFormattedTime();
 
 	// setup the TCP socket
@@ -141,7 +141,7 @@ void Server::serverInit()
 		close(_socket_fd);
 		exit(1);
 	}
-	std::cout << "Server created on port: " << _port << " with password: " << _password << std::endl;
+	std::cout << "Server created on port: " << _port << " with password" << std::endl;
 	std::cout << "Server is listening on port " << _port << std::endl;
 }
 
@@ -251,7 +251,7 @@ void Server::handlePass(int fd, std::list<std::string> cmd_list)
 	std::list<std::string>::const_iterator it = cmd_list.begin();
 	++it;
 	const std::string &provided = *it;
-	if (provided == _password)
+	if (_password == sha256(provided))
 	{
 		client->authenticate();
 		send(fd, "NOTICE AUTH :Password accepted\r\n", 33, 0);

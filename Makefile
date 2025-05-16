@@ -3,6 +3,8 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 -I include -MMD -MP -g
 
 TARGET = ircserv
 
+LIBS = -lcrypto
+
 # Define source and object directories
 SRC_DIR = src
 OBJ_DIR = obj
@@ -30,9 +32,10 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@echo "Compiling $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Include dependency files if they exist
