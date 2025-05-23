@@ -50,11 +50,19 @@ std::string ERR_NOTONCHANNEL(const std::string &serverName, const std::string &c
 }
 
 
+// 473
+std::string ERR_INVITEONLYCHAN(const std::string &serverName, const std::string &clientNick, const std::string &channelName)
+{
+	return (":" + serverName + " 473 " + clientNick + " " + channelName + " :Cannot join channel (+i)" + CRLF);
+}
+
+
 // 475
 std::string ERR_BADCHANNELKEY(const std::string &serverName, const std::string &clientNick, const std::string &channelName)
 {
 	return (":" + serverName + " 475 " + clientNick + " " + channelName + " :Cannot join channel (+k) - bad key" + CRLF);
 }
+
 
 // 482
 std::string ERR_CHANOPRIVSNEEDED(const std::string &serverName, const std::string &clientNick, const std::string &channelName)

@@ -28,6 +28,8 @@ std::string ERR_NOSUCHCHANNEL(const std::string &serverName, const std::string &
 std::string ERR_CANNOTSENDTOCHAN(const std::string &serverName, const std::string &clientNick, const std::string &channelName);
 // 442
 std::string ERR_NOTONCHANNEL(const std::string &serverName, const std::string &clientNick, const std::string &channelName);
+// 473
+std::string ERR_INVITEONLYCHAN(const std::string &serverName, const std::string &clientNick, const std::string &channelName);
 // 475
 std::string ERR_BADCHANNELKEY(const std::string &serverName, const std::string &clientNick, const std::string &channelName);
 // 482

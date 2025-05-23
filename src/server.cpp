@@ -393,30 +393,43 @@ std::string	Server::modeTo_execute(char opera, char mode)
 		ss << opera << mode;
 	return (ss.str());
 }
-
-//edit int fd to get client's name instead
+//sets channel to invite only
 std::string	Server::invite_only(Channel *targetChannel, char operation, int fd)
 {
 	std::string	param;
 	param.clear();
 	(void)fd;
+
 	//Client* client = getClientByFd(fd);
 	//having issues trying to get client's name and sending reply:
 	//sendreply not appearing in my channel
 	if (operation == '+')
-	{
-		//targetChannel->setModeAtindex(0, true);
-		targetChannel->SetInviteOnly(true);//set the channel as invite only
-		param = modeTo_execute(operation, 'i');
-		//sendReply(fd, "mode/" + targetChannel->getName() + " [+i] by client " + client->getNick());
-	}
+		targetChannel->SetInviteOnly(true, fd);//set the channel as invite only
 	else if (operation == '-')
-	{
-		//targetChannel->setModeAtindex(0, false);
-		targetChannel->SetInviteOnly(false);
-		param = modeTo_execute(operation, 'i');
-		//sendReply(fd, "mode/" + targetChannel->getName() + " [-i] by client " + client->getNick());
-	}
+		targetChannel->SetInviteOnly(false, fd);
+	param = modeTo_execute(operation, 'i');
+	if (targetChannel->getchannelIsInviteOnly() == true)
+		std::cout << GREEN << "[DEBUG] Channel is invite only now." << RT << std::endl;
+	std::cout << YELLOW << "[DEBUG] Current value of channel-> \"" << RED 
+		<< targetChannel->getchannelIsInviteOnly() << RT << "\"" << std::endl;
+	return (param);
+}
+
+std::string	Server::topic_restriction(Channel *targetChannel, char operation, int fd)
+{
+	std::string	param;
+	param.clear();
+	(void)fd;
+
+	if (operation == '+')
+		targetChannel->setTopicRestriction(true, fd);
+	else if (operation == '-')
+		targetChannel->setTopicRestriction(false, fd);
+	param = modeTo_execute(operation, 't');
+	if (targetChannel->getisTopicRestricted() == true)
+		std::cout << GREEN << "[DEBUG] Channel has a Topic now." << RT << std::endl;
+	std::cout << YELLOW << "[DEBUG] Topic value-> \"" << RED 
+		<< targetChannel->getTopic() << RT << "\"" << std::endl;
 	return (param);
 }
 //Marcus functions

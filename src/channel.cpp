@@ -19,6 +19,10 @@ Channel::Channel(const std::string &name, const std::string &password)
 	_topic = "Welcome to " + getName();
 	_created_time = getFormattedTime();
 	_inviteOnly = false;
+	_topicRestricted = false;
+	//for k
+	//for 0
+	//for l
 };
 
 const std::string &Channel::getName() const
@@ -149,51 +153,3 @@ void Channel::broadcast(const std::string &message)
 		sendReply(it->client->getFd(), message);
 	}
 }
-
-//for mode -marcus-
-void Channel::SetInviteOnly(bool enable_invite)
-{
-	if (enable_invite == true && this->_inviteOnly != true)
-	{
-		//clear the invite list before making the channel into a invite only channel
-		this->clearInviteList();
-		std::cout << YELLOW << "[DEBUG] Checking if list is cleared" << RT << std::endl;
-		if (this->_inviteList.empty())
-		{
-			std::cout << GREEN << "[SUCCESS] List is cleared!" << RT << std::endl;
-			return ;
-		}
-		std::cout << RED << "[DEBUG] Failed to clear list? WHY?" << RT << std::endl;
-	}
-	this->_inviteOnly = enable_invite;
-}
-
-bool	Channel::getchannelIsInviteOnly()
-{
-	return (this->_inviteOnly);
-}
-
-void	Channel::inviteClient(int clientFd)
-{
-	if (std::find(_inviteList.begin(), _inviteList.end(), clientFd) == _inviteList.end())
-		this->_inviteList.push_back(clientFd);
-}
-
-bool	Channel::getisClientInvited(int clientFd) const
-{
-	return (std::find(_inviteList.begin(), _inviteList.end(), clientFd) != _inviteList.end());
-}
-
-//once you joined after invite you can't join back unless invited again
-void	Channel::removeInvite(int clientFd)
-{
-	std::vector<int>::iterator it = std::find(_inviteList.begin(), _inviteList.end(), clientFd);
-	if (it != _inviteList.end())
-		this->_inviteList.erase(it);
-}
-
-void	Channel::clearInviteList()
-{
-	this->_inviteList.clear();
-}
-//for mode -marcus-

@@ -24,6 +24,7 @@ class Channel
 		std::string					_created_time;
 		bool						_inviteOnly;// -marcus-
 		std::vector<int>			_inviteList;// -marcus- 
+		bool						_topicRestricted;// -marcus-
 
 	public:
 		Channel(const std::string &name, const std::string &password);
@@ -54,12 +55,18 @@ class Channel
 
 
 		//for mode -marcus-:
-		void	SetInviteOnly(bool enable_invite);
-		bool	getchannelIsInviteOnly();
-			// Invite list methods
+			// INVITE (i)
+			void	SetInviteOnly(bool enable_invite, int fd);
+			bool	getchannelIsInviteOnly() const;
 			void	inviteClient(int clientFd);
 			bool	getisClientInvited(int clientFd) const;
 			void	removeInvite(int clientFd);
 			void	clearInviteList(); // Optional, maybe on mode -i
+			// TOPIC (t)
+			void	setTopicRestriction(bool setTopic, int fd);
+			bool	getisTopicRestricted() const;
+			// PASSWORD (k)
+			// OPERATOR PRIVILEGE (o)
+			// USER LIMIT (l)
 		//for mode -marcus-:
 };

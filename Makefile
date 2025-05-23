@@ -16,7 +16,8 @@ SRCS = main.cpp \
 		client.cpp \
 		replies.cpp \
 		errors.cpp \
-		channel.cpp
+		channel.cpp \
+		mode.cpp
 
 # Add "src/" prefix for compilation
 SRCS_PATH = $(addprefix $(SRC_DIR)/, $(SRCS))
